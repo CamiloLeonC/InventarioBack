@@ -1,6 +1,7 @@
 ﻿using BackSistemaUbala.Interfaces;
 using BackSistemaUbala.Models;
 using BackSistemaUbala.Models.DTOs;
+using BackSistemaUbala.Models.Enums;
 using BackSistemaUbala.Models.InteractionResult;
 using General_back.Helpers;
 using General_back.Security.Models;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace BackSistemaUbala.Manager
@@ -99,12 +101,8 @@ namespace BackSistemaUbala.Manager
                         Id = result.Id,
                         Documento = result.Documento,
                         Email = result.Email,
-                        IdGrupo = result.IdGrupo == null ? null : result.IdGrupo.Value,
-                        NombreAcudiente = result.NombreAcudiente,
                         NombreCompleto = result.NombreCompleto,
-                        NumeroAcudiente = result.NumeroAcudiente,
-                        Jornada = result.Jornada,
-                        TipoSangre = result.TipoSangre,
+                        Celular = result.Celular
                     };
 
                     var rol = context.ApplicationUserRole.Include(z => z.Role).FirstOrDefault(x => x.UserId == result.Id);
@@ -133,13 +131,10 @@ namespace BackSistemaUbala.Manager
 
                 var user = new ApplicationUser
                 {
-                    IdGrupo = row.IdGrupo,
+
                     NombreCompleto = row.NombreCompleto,
-                    Jornada = row.Jornada,
-                    TipoSangre = row.TipoSangre,
+                    Celular = row.Celular,
                     Documento = row.Documento,
-                    NombreAcudiente = row.NombreAcudiente,
-                    NumeroAcudiente = row.NumeroAcudiente,
                     Email = row.Email,
                     UserName = row.Email.Trim(),
                 };
@@ -255,14 +250,10 @@ namespace BackSistemaUbala.Manager
                     if (existeXDocumento(changes.Id, changes.Documento)) throw new Exception("Ya existe un Usuario con ese Documento.");
                     if (existeXEmail(changes.Id, changes.Email)) throw new Exception("Ya existe un Usuario con ese Correo.");
 
-                    result.IdGrupo = changes.IdGrupo;
                     result.NombreCompleto = changes.NombreCompleto;
-                    result.Jornada = changes.Jornada;
-                    result.TipoSangre = changes.TipoSangre;
                     result.Email = changes.Email;
                     result.Documento = changes.Documento;
-                    result.NombreAcudiente = changes.NombreAcudiente;
-                    result.NumeroAcudiente = changes.NumeroAcudiente;
+                    result.Celular = changes.Celular;
 
                     var rol = context.ApplicationUserRole.FirstOrDefault(x => x.UserId == keyApplicationUserId);
                     if(rol != null)

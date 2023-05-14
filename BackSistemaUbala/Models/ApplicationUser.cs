@@ -1,7 +1,6 @@
 ﻿using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 using BackSistemaUbala.Models.Enums;
 using System.Collections.Generic;
 using General_back.Security.Models;
@@ -10,17 +9,12 @@ namespace BackSistemaUbala.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public int? IdGrupo { get; set; }
         public string NombreCompleto { get; set; }
-        public Jornada Jornada { get; set; }
-        public TipoSangre TipoSangre { get; set; }
         public string Documento { get; set; }
-        public string NombreAcudiente { get; set; }
-        public string NumeroAcudiente { get; set; }
-        public GrupoModel Grupo { get; set; }
-        public ICollection<NotaModel> NotasAlumnos { get; set; }
-        public ICollection<MateriaProfesorModel> MateriasProfesor { get; set; }
+        public string Celular { get; set; }    
         public ICollection<ApplicationUserRole> Roles { get; set; }
+        public ICollection<EntregaDevolucionesModel> EntregaDevoluciones { get; set; }
+        
 
     }
     public static class ApplicationUser_Extension
@@ -31,16 +25,7 @@ namespace BackSistemaUbala.Models
 
             //PrimaryKey
             entity.HasKey(c => new { c.Id });
-
-            entity.HasOne(x => x.Grupo)
-               .WithMany(x => x.ApplicationUser)
-               .HasForeignKey(x => x.IdGrupo)
-               .IsRequired(false)
-               .OnDelete(DeleteBehavior.Restrict);
-
-            //HasOne Profesor dee ir aca?
-
-
+            
             return modelBuilder;
         }
 

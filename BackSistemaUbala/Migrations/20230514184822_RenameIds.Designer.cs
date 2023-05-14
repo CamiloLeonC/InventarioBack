@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackSistemaUbala.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    [Migration("20220518034208_ActualizacionNuevasTablas")]
-    partial class ActualizacionNuevasTablas
+    [Migration("20230514184822_RenameIds")]
+    partial class RenameIds
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,44 +20,6 @@ namespace BackSistemaUbala.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("BackSistemaUbala.Models.AlumnoModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Correo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Documento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdGrupo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Jornada")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NombreAcudiente")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NombreCompleto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeroAcudiente")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TipoSangre")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdGrupo");
-
-                    b.ToTable("Alumnos");
-                });
 
             modelBuilder.Entity("BackSistemaUbala.Models.ApplicationRole", b =>
                 {
@@ -97,6 +59,9 @@ namespace BackSistemaUbala.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Celular")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -111,20 +76,11 @@ namespace BackSistemaUbala.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IdGrupo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Jornada")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NombreAcudiente")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreCompleto")
                         .HasColumnType("nvarchar(max)");
@@ -136,9 +92,6 @@ namespace BackSistemaUbala.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NumeroAcudiente")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -152,9 +105,6 @@ namespace BackSistemaUbala.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TipoSangre")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -163,8 +113,6 @@ namespace BackSistemaUbala.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdGrupo");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -177,141 +125,129 @@ namespace BackSistemaUbala.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.GrupoModel", b =>
+            modelBuilder.Entity("BackSistemaUbala.Models.ContratosModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Curso")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Grado")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Grupos");
-                });
-
-            modelBuilder.Entity("BackSistemaUbala.Models.MateriaModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Cod")
+                    b.Property<string>("Codigo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Nombre")
+                    b.Property<DateTime>("FechaIncio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEquipo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TerminosContrato")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Materias");
+                    b.HasIndex("IdEquipo");
+
+                    b.ToTable("Contratos");
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.MateriaProfesorModel", b =>
+            modelBuilder.Entity("BackSistemaUbala.Models.EntregaDevolucionesModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("IdMateria")
+                    b.Property<string>("Codigo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaIncio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEquipos")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdProfesor")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IdUser")
+                    b.Property<string>("IdUsuario")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdMateria");
+                    b.HasIndex("IdEquipos");
 
-                    b.HasIndex("IdProfesor");
+                    b.HasIndex("IdUsuario");
 
-                    b.HasIndex("IdUser");
-
-                    b.ToTable("MateriaProfesores");
+                    b.ToTable("EntregasDevoluciones");
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.NotaModel", b =>
+            modelBuilder.Entity("BackSistemaUbala.Models.EquiposModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("DefinitivaTotal")
-                        .HasColumnType("decimal(2,2)");
-
-                    b.Property<int?>("IdAlumno")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdMateriaProfesor")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IdUser")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("NotaHacer")
-                        .HasColumnType("decimal(2,2)");
-
-                    b.Property<decimal>("NotaSaber")
-                        .HasColumnType("decimal(2,2)");
-
-                    b.Property<decimal>("NotaSer")
-                        .HasColumnType("decimal(2,2)");
-
-                    b.Property<string>("Observaciones")
+                    b.Property<string>("Codigo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Periodo")
-                        .HasColumnType("int");
+                    b.Property<string>("DDEquipo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MarcaEquipo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModeloEquipo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroSerie")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Placa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RamEquipo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SOEquipo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoEquipo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdAlumno");
-
-                    b.HasIndex("IdMateriaProfesor");
-
-                    b.HasIndex("IdUser");
-
-                    b.ToTable("Notas");
+                    b.ToTable("Equipos");
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.ProfesorModel", b =>
+            modelBuilder.Entity("BackSistemaUbala.Models.SeguimientosModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Correo")
+                    b.Property<string>("Codigo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Documento")
+                    b.Property<string>("Estado")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdGrupo")
+                    b.Property<DateTime>("FechaEstado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEntregaDevolucion")
                         .HasColumnType("int");
-
-                    b.Property<string>("NombreCompleto")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdGrupo");
+                    b.HasIndex("IdEntregaDevolucion");
 
-                    b.ToTable("Profesores");
+                    b.ToTable("Seguimientos");
                 });
 
             modelBuilder.Entity("General_back.Security.Models.ApplicationClaim", b =>
@@ -469,87 +405,44 @@ namespace BackSistemaUbala.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.AlumnoModel", b =>
+            modelBuilder.Entity("BackSistemaUbala.Models.ContratosModel", b =>
                 {
-                    b.HasOne("BackSistemaUbala.Models.GrupoModel", "Grupo")
-                        .WithMany("Alumnos")
-                        .HasForeignKey("IdGrupo")
+                    b.HasOne("BackSistemaUbala.Models.EquiposModel", "Equipo")
+                        .WithMany("Contratos")
+                        .HasForeignKey("IdEquipo")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Grupo");
+                    b.Navigation("Equipo");
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.ApplicationUser", b =>
+            modelBuilder.Entity("BackSistemaUbala.Models.EntregaDevolucionesModel", b =>
                 {
-                    b.HasOne("BackSistemaUbala.Models.GrupoModel", "Grupo")
-                        .WithMany("ApplicationUser")
-                        .HasForeignKey("IdGrupo")
+                    b.HasOne("BackSistemaUbala.Models.EquiposModel", "Equipo")
+                        .WithMany("EntregaDevoluciones")
+                        .HasForeignKey("IdEquipos")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Grupo");
+                    b.HasOne("BackSistemaUbala.Models.ApplicationUser", "Usuario")
+                        .WithMany("EntregaDevoluciones")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Equipo");
+
+                    b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.MateriaProfesorModel", b =>
+            modelBuilder.Entity("BackSistemaUbala.Models.SeguimientosModel", b =>
                 {
-                    b.HasOne("BackSistemaUbala.Models.MateriaModel", "Materia")
-                        .WithMany("MateriaProfesores")
-                        .HasForeignKey("IdMateria")
-                        .OnDelete(DeleteBehavior.NoAction)
+                    b.HasOne("BackSistemaUbala.Models.EntregaDevolucionesModel", "EntregaDevolucion")
+                        .WithMany("Seguimientos")
+                        .HasForeignKey("IdEntregaDevolucion")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BackSistemaUbala.Models.ProfesorModel", "Profesor")
-                        .WithMany("MateriasProfesor")
-                        .HasForeignKey("IdProfesor")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("BackSistemaUbala.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("MateriasProfesor")
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Materia");
-
-                    b.Navigation("Profesor");
-                });
-
-            modelBuilder.Entity("BackSistemaUbala.Models.NotaModel", b =>
-                {
-                    b.HasOne("BackSistemaUbala.Models.AlumnoModel", "Alumno")
-                        .WithMany("NotasAlumnos")
-                        .HasForeignKey("IdAlumno")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("BackSistemaUbala.Models.MateriaProfesorModel", "MateriaProfesor")
-                        .WithMany("Notas")
-                        .HasForeignKey("IdMateriaProfesor")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("BackSistemaUbala.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("NotasAlumnos")
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Alumno");
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("MateriaProfesor");
-                });
-
-            modelBuilder.Entity("BackSistemaUbala.Models.ProfesorModel", b =>
-                {
-                    b.HasOne("BackSistemaUbala.Models.GrupoModel", "Grupo")
-                        .WithMany("Profesores")
-                        .HasForeignKey("IdGrupo")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Grupo");
+                    b.Navigation("EntregaDevolucion");
                 });
 
             modelBuilder.Entity("General_back.Security.Models.ApplicationRoleClaim", b =>
@@ -625,11 +518,6 @@ namespace BackSistemaUbala.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.AlumnoModel", b =>
-                {
-                    b.Navigation("NotasAlumnos");
-                });
-
             modelBuilder.Entity("BackSistemaUbala.Models.ApplicationRole", b =>
                 {
                     b.Navigation("Funcionalidades");
@@ -639,35 +527,21 @@ namespace BackSistemaUbala.Migrations
 
             modelBuilder.Entity("BackSistemaUbala.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("MateriasProfesor");
-
-                    b.Navigation("NotasAlumnos");
+                    b.Navigation("EntregaDevoluciones");
 
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.GrupoModel", b =>
+            modelBuilder.Entity("BackSistemaUbala.Models.EntregaDevolucionesModel", b =>
                 {
-                    b.Navigation("Alumnos");
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Profesores");
+                    b.Navigation("Seguimientos");
                 });
 
-            modelBuilder.Entity("BackSistemaUbala.Models.MateriaModel", b =>
+            modelBuilder.Entity("BackSistemaUbala.Models.EquiposModel", b =>
                 {
-                    b.Navigation("MateriaProfesores");
-                });
+                    b.Navigation("Contratos");
 
-            modelBuilder.Entity("BackSistemaUbala.Models.MateriaProfesorModel", b =>
-                {
-                    b.Navigation("Notas");
-                });
-
-            modelBuilder.Entity("BackSistemaUbala.Models.ProfesorModel", b =>
-                {
-                    b.Navigation("MateriasProfesor");
+                    b.Navigation("EntregaDevoluciones");
                 });
 
             modelBuilder.Entity("General_back.Security.Models.ApplicationClaim", b =>

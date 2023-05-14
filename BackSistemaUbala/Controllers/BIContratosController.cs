@@ -3,35 +3,34 @@ using BackSistemaUbala.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using System;
-using System.Threading.Tasks;
-
 
 namespace BackSistemaUbala.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Docente")]
+    //[Authorize(Roles = "Administrador, Docente")]
+    //[Authorize(Roles = "Docente")]
 
-    public class ProfesorController : ControllerBase
+    public class ContratosController : ControllerBase
     {
-        private readonly IProfesorManager ProfesorManager;
+        private readonly IContratosManager ContratosManager;
 
-        public ProfesorController(IProfesorManager ProfesorManager)
+        public ContratosController(IContratosManager ContratosManager)
         {
-            this.ProfesorManager = ProfesorManager;
+            this.ContratosManager = ContratosManager;
         }
-        // GET: api/<ProfesorController>
+        // GET: api/<ContratosController>
         [HttpGet]
         [EnableQuery]
-
+        [Authorize(Roles = "Administrador,Docente, Alumno")]
         public IActionResult Get()
         {
             try
             {
-                var listProfesor = ProfesorManager.GetAll();
-                return Ok(listProfesor);
+                var listContratos = ContratosManager.GetAll();
+                return Ok(listContratos);
             }
             catch (Exception ex)
             {
@@ -39,14 +38,16 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // GET api/<ProfesorController>/5
+        // GET api/<ContratosController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Administrador,Docente, Alumno")]
+
         public IActionResult GetById(int id)
         {
             try
             {
-                var idProfesor = ProfesorManager.GetById(id);
-                return Ok(idProfesor);
+                var idContratos = ContratosManager.GetById(id);
+                return Ok(idContratos);
             }
             catch (Exception ex)
             {
@@ -54,13 +55,15 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // POST api/<ProfesorController>
+        // POST api/<ContratosController>
         [HttpPost]
-        public IActionResult Post([FromBody] ProfesorModel Profesor)
+        [Authorize(Roles = "Administrador")]
+
+        public IActionResult Post([FromBody] ContratosModel alumno)
         {
             try
             {
-                var result = ProfesorManager.Add(Profesor);
+                    var result = ContratosManager.Add(alumno);
                 if (result == null)
                 {
                     return BadRequest("Error en el sistema, contacte al administrador.");
@@ -73,13 +76,15 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // PUT api/<ProfesorController>/5
+        // PUT api/<ContratosController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProfesorModel Profesor)
+        [Authorize(Roles = "Administrador")]
+
+        public IActionResult Put(int id, [FromBody] ContratosModel alumno)
         {
             try
             {
-                var result = ProfesorManager.Update(id, Profesor);
+                var result = ContratosManager.Update(id, alumno);
                 if (result != null)
                 {
                     return Ok(result);
@@ -96,22 +101,24 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // DELETE api/<ProfesorController>/5
+        // DELETE api/<ContratosController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
+
         public IActionResult Delete(int id)
         {
             try
             {
-                var result = ProfesorManager.Delete(id);
+                var result = ContratosManager.Delete(id);
                 if (result == null)
                 {
-                    return NotFound();
+                    return BadRequest("No se encontro registro, vuelva a intentar.");
                 }
                 return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("El registro se encuentra en uso.");
             }
         }
     }

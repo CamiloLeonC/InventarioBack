@@ -13,15 +13,15 @@ namespace BackSistemaUbala.Controllers
     //[Authorize(Roles = "Administrador, Docente")]
     //[Authorize(Roles = "Docente")]
 
-    public class GrupoController : ControllerBase
+    public class EntregasDevolucionesController : ControllerBase
     {
-        private readonly IGrupoManager GrupoManager;
+        private readonly IEntregaDevolucionesManager EntregasDevolucionesManager;
 
-        public GrupoController(IGrupoManager GrupoManager)
+        public EntregasDevolucionesController(IEntregaDevolucionesManager EntregasDevolucionesManager)
         {
-            this.GrupoManager = GrupoManager;
+            this.EntregasDevolucionesManager = EntregasDevolucionesManager;
         }
-        // GET: api/<GrupoController>
+        // GET: api/<EntregasDevolucionesController>
         [HttpGet]
         [EnableQuery]
         [Authorize(Roles = "Administrador,Docente, Alumno")]
@@ -29,8 +29,8 @@ namespace BackSistemaUbala.Controllers
         {
             try
             {
-                var listGrupo = GrupoManager.GetAll();
-                return Ok(listGrupo);
+                var listEntregasDevoluciones = EntregasDevolucionesManager.GetAll();
+                return Ok(listEntregasDevoluciones);
             }
             catch (Exception ex)
             {
@@ -38,7 +38,7 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // GET api/<GrupoController>/5
+        // GET api/<EntregasDevolucionesController>/5
         [HttpGet("{id}")]
         [Authorize(Roles = "Administrador,Docente, Alumno")]
 
@@ -46,8 +46,8 @@ namespace BackSistemaUbala.Controllers
         {
             try
             {
-                var idGrupo = GrupoManager.GetById(id);
-                return Ok(idGrupo);
+                var idEntregasDevoluciones = EntregasDevolucionesManager.GetById(id);
+                return Ok(idEntregasDevoluciones);
             }
             catch (Exception ex)
             {
@@ -55,15 +55,15 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // POST api/<GrupoController>
+        // POST api/<EntregasDevolucionesController>
         [HttpPost]
         [Authorize(Roles = "Administrador")]
 
-        public IActionResult Post([FromBody] GrupoModel alumno)
+        public IActionResult Post([FromBody] EntregaDevolucionesModel alumno)
         {
             try
             {
-                    var result = GrupoManager.Add(alumno);
+                    var result = EntregasDevolucionesManager.Add(alumno);
                 if (result == null)
                 {
                     return BadRequest("Error en el sistema, contacte al administrador.");
@@ -76,15 +76,15 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // PUT api/<GrupoController>/5
+        // PUT api/<EntregasDevolucionesController>/5
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrador")]
 
-        public IActionResult Put(int id, [FromBody] GrupoModel alumno)
+        public IActionResult Put(int id, [FromBody] EntregaDevolucionesModel alumno)
         {
             try
             {
-                var result = GrupoManager.Update(id, alumno);
+                var result = EntregasDevolucionesManager.Update(id, alumno);
                 if (result != null)
                 {
                     return Ok(result);
@@ -101,7 +101,7 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // DELETE api/<GrupoController>/5
+        // DELETE api/<EntregasDevolucionesController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrador")]
 
@@ -109,7 +109,7 @@ namespace BackSistemaUbala.Controllers
         {
             try
             {
-                var result = GrupoManager.Delete(id);
+                var result = EntregasDevolucionesManager.Delete(id);
                 if (result == null)
                 {
                     return BadRequest("No se encontro registro, vuelva a intentar.");

@@ -10,12 +10,14 @@ namespace BackSistemaUbala
 
 
     {
-        public DbSet<AlumnoModel> Alumnos { get; set; }
-        public DbSet<GrupoModel> Grupos { get; set; }
-        public DbSet<MateriaModel> Materias { get; set; }
-        public DbSet<MateriaProfesorModel> MateriaProfesores { get; set; }
-        public DbSet<NotaModel> Notas { get; set; }
-        public DbSet<ProfesorModel> Profesores { get; set; }
+        #region Inventario
+        public DbSet<ContratosModel> Contratos { get; set; }
+        public DbSet<EntregaDevolucionesModel> EntregasDevoluciones { get; set; }
+        public DbSet<EquiposModel> Equipos { get; set; }
+        public DbSet<SeguimientosModel> Seguimientos { get; set; }
+        #endregion
+
+        
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<ApplicationRole> ApplicationRole { get; set; }
         public DbSet<ApplicationUserRole> ApplicationUserRole { get; set; }
@@ -37,13 +39,10 @@ namespace BackSistemaUbala
         {
             base.OnModelCreating(modelbuilder);
 
-            modelbuilder.AlumnoMapping();
-            modelbuilder.GrupoMapping();
-            modelbuilder.MateriaMapping();
-            modelbuilder.MateriaProfesorMapping();
-            modelbuilder.NotaMapping();
-            modelbuilder.ProfesorMapping();
-
+            modelbuilder.EquiposMapping();
+            modelbuilder.ContratosMapping();
+            modelbuilder.EntregaDevolucionesMapping();
+            modelbuilder.SeguimientosMapping();
 
             modelbuilder.ApplicationUserMapping();
             modelbuilder.ApplicationRoleMapping();

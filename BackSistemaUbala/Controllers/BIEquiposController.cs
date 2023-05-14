@@ -3,67 +3,68 @@ using BackSistemaUbala.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using System;
-using System.Threading.Tasks;
-
 
 namespace BackSistemaUbala.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Administrador,Docente, Alumno")]
+    //[Authorize(Roles = "Administrador, Docente")]
+    //[Authorize(Roles = "Docente")]
 
-    public class AlumnoController : ControllerBase
+    public class EquiposController : ControllerBase
     {
-        private readonly IAlumnoManager AlumnoManager;
+        private readonly IEquiposManager EquiposManager;
 
-        public AlumnoController(IAlumnoManager AlumnoManager)
+        public EquiposController(IEquiposManager EquiposManager)
         {
-            this.AlumnoManager = AlumnoManager;
+            this.EquiposManager = EquiposManager;
         }
-        // GET: api/<AlumnoController>
+        // GET: api/<EquiposController>
         [HttpGet]
         [EnableQuery]
+        [Authorize(Roles = "Administrador,Docente, Alumno")]
         public IActionResult Get()
         {
             try
             {
-                var listAlumno = AlumnoManager.GetAll();
-                return Ok(listAlumno);
-            }
-            catch (Exception ex) 
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        // GET api/<AlumnoController>/5
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-
-            try
-            {
-                var idAlumno = AlumnoManager.GetById(id);
-                return Ok(idAlumno);
+                var listEquipos = EquiposManager.GetAll();
+                return Ok(listEquipos);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
-        
         }
 
-        // POST api/<AlumnoController>
-        [HttpPost]
-        public IActionResult Post([FromBody] AlumnoModel alumno)
+        // GET api/<EquiposController>/5
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Administrador,Docente, Alumno")]
+
+        public IActionResult GetById(int id)
         {
             try
             {
-                var result = AlumnoManager.Add(alumno);
-                if(result == null)
+                var idEquipos = EquiposManager.GetById(id);
+                return Ok(idEquipos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // POST api/<EquiposController>
+        [HttpPost]
+        [Authorize(Roles = "Administrador")]
+
+        public IActionResult Post([FromBody] EquiposModel alumno)
+        {
+            try
+            {
+                    var result = EquiposManager.Add(alumno);
+                if (result == null)
                 {
                     return BadRequest("Error en el sistema, contacte al administrador.");
                 }
@@ -75,13 +76,15 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // PUT api/<AlumnoController>/5
+        // PUT api/<EquiposController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] AlumnoModel alumno)
+        [Authorize(Roles = "Administrador")]
+
+        public IActionResult Put(int id, [FromBody] EquiposModel alumno)
         {
             try
             {
-                var result = AlumnoManager.Update(id,alumno);
+                var result = EquiposManager.Update(id, alumno);
                 if (result != null)
                 {
                     return Ok(result);
@@ -90,7 +93,7 @@ namespace BackSistemaUbala.Controllers
                 {
                     return BadRequest("Error en el sistema, contacte al administrador.");
                 }
-              
+
             }
             catch (Exception ex)
             {
@@ -98,22 +101,24 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // DELETE api/<AlumnoController>/5
+        // DELETE api/<EquiposController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
+
         public IActionResult Delete(int id)
         {
             try
             {
-                var result = AlumnoManager.Delete(id);
+                var result = EquiposManager.Delete(id);
                 if (result == null)
                 {
-                    return NotFound();
-                }              
+                    return BadRequest("No se encontro registro, vuelva a intentar.");
+                }
                 return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("El registro se encuentra en uso.");
             }
         }
     }

@@ -3,36 +3,34 @@ using BackSistemaUbala.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 
 namespace BackSistemaUbala.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MateriaController : ControllerBase
-    {
-        private readonly IMateriaManager MateriaManager;
+    //[Authorize(Roles = "Administrador, Docente")]
+    //[Authorize(Roles = "Docente")]
 
-        public MateriaController(IMateriaManager MateriaManager)
+    public class SeguimientosController : ControllerBase
+    {
+        private readonly ISeguimientosManager SeguimientosManager;
+
+        public SeguimientosController(ISeguimientosManager SeguimientosManager)
         {
-            this.MateriaManager = MateriaManager;
+            this.SeguimientosManager = SeguimientosManager;
         }
-        // GET: api/<MateriaController>
+        // GET: api/<SeguimientosController>
         [HttpGet]
         [EnableQuery]
         [Authorize(Roles = "Administrador,Docente, Alumno")]
-
         public IActionResult Get()
         {
             try
             {
-                var listMateria = MateriaManager.GetAll();
-                return Ok(listMateria);
+                var listSeguimientos = SeguimientosManager.GetAll();
+                return Ok(listSeguimientos);
             }
             catch (Exception ex)
             {
@@ -40,7 +38,7 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // GET api/<MateriaController>/5
+        // GET api/<SeguimientosController>/5
         [HttpGet("{id}")]
         [Authorize(Roles = "Administrador,Docente, Alumno")]
 
@@ -48,25 +46,24 @@ namespace BackSistemaUbala.Controllers
         {
             try
             {
-                var idMateria = MateriaManager.GetById(id);
-                return Ok(idMateria);
+                var idSeguimientos = SeguimientosManager.GetById(id);
+                return Ok(idSeguimientos);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        
 
-        // POST api/<MateriaController>
+        // POST api/<SeguimientosController>
         [HttpPost]
         [Authorize(Roles = "Administrador")]
 
-        public IActionResult Post([FromBody] MateriaModel alumno)
+        public IActionResult Post([FromBody] SeguimientosModel alumno)
         {
             try
             {
-                var result = MateriaManager.Add(alumno);
+                    var result = SeguimientosManager.Add(alumno);
                 if (result == null)
                 {
                     return BadRequest("Error en el sistema, contacte al administrador.");
@@ -79,15 +76,15 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // PUT api/<MateriaController>/5
+        // PUT api/<SeguimientosController>/5
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrador")]
 
-        public IActionResult Put(int id, [FromBody] MateriaModel alumno)
+        public IActionResult Put(int id, [FromBody] SeguimientosModel alumno)
         {
             try
             {
-                var result = MateriaManager.Update(id, alumno);
+                var result = SeguimientosManager.Update(id, alumno);
                 if (result != null)
                 {
                     return Ok(result);
@@ -104,7 +101,7 @@ namespace BackSistemaUbala.Controllers
             }
         }
 
-        // DELETE api/<MateriaController>/5
+        // DELETE api/<SeguimientosController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrador")]
 
@@ -112,7 +109,7 @@ namespace BackSistemaUbala.Controllers
         {
             try
             {
-                var result = MateriaManager.Delete(id);
+                var result = SeguimientosManager.Delete(id);
                 if (result == null)
                 {
                     return BadRequest("No se encontro registro, vuelva a intentar.");

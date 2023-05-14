@@ -16,13 +16,10 @@ namespace BackSistemaUbala.OData
 
             #region Ubala
 
-            modelBuilder.AlumnoMapping();
-            modelBuilder.GrupoMapping();
-            modelBuilder.MateriaMapping();
-            modelBuilder.MateriaProfesorMapping();
-            modelBuilder.NotaMapping();
-            modelBuilder.ProfesorMapping();
-
+            modelBuilder.EquiposMapping();
+            modelBuilder.EntregaDevolucionesMapping();
+            modelBuilder.ContratosMapping();
+            modelBuilder.SeguimientosMapping();
 
             modelBuilder.ApplicationUserRoleMapping();
             modelBuilder.ApplicationUserMapping();
@@ -41,15 +38,12 @@ namespace BackSistemaUbala.OData
 
         public static void AddODataScoped(IServiceCollection services) 
         {
+            services.AddScoped<IEntregaDevolucionesManager, EntregaDevolucionesManager>();
+            services.AddScoped<IEquiposManager, EquiposManager>();
+            services.AddScoped<IContratosManager, ContratosManager>();
+            services.AddScoped<ISeguimientosManager, SeguimientosManager>();
 
-
-            #region Ubala
-            services.AddScoped<IAlumnoManager, AlumnoManager>();
-            services.AddScoped<IGrupoManager, GrupoManager>();
-            services.AddScoped<IMateriaManager, MateriaManager>();
-            services.AddScoped<IMateriaProfesorManager, MateriaProfesorManager>();
-            services.AddScoped<INotaManager, NotaManager>();
-            services.AddScoped<IProfesorManager, ProfesorManager>();
+            #region Inventario
             services.AddScoped<IApplicationRoleManager, ApplicationRoleManager>();
             services.AddScoped<ISeguridadManager, SeguridadManager>();
             services.AddScoped<IApplicationUserManager, ApplicationUserManager>();
